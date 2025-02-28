@@ -1,0 +1,30 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main  # Runs tests on pushes to main
+  pull_request:
+    branches:
+      - main  # Runs tests on pull requests targeting main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.7'  # Now using Python 3.11.7
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Tests
+        run: python -m unittest discover -s tests

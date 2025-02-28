@@ -46,4 +46,15 @@ class PDFParser:
         chunks = self.splitter.split_text(text)
         
         return chunks
+    
+    def vectorize(self, text:str):
+        doc = self.nlp(text)
+        return doc.vector
+    
+    def vectorizeDocument(self):
+        text = self.extractText()
+        chunks = self.splitExtractedText(text)
+        vectors = [self.vectorize(chunk) for chunk in chunks]
+        
+        return vectors
 

@@ -12,6 +12,9 @@ expecetdVectorShape = 96
 class TestParser(unittest.TestCase):
     nlp = spacy.load(model)
     def test_parser_init(self):
+        """
+        This method tests if the parser is initialized properly.
+        """
         invalidPath = "tests/files/hello.txt"
         validPath = "tests/files/hello.pdf"
         filePath = "tests/files/testFIle.pdf"
@@ -40,6 +43,9 @@ class TestParser(unittest.TestCase):
             PDFParser(filePath, 50)
 
     def test_extract(self):
+        """
+        Tests if the parser is able to extract text.
+        """
         filePath = "tests/files/testFIle.pdf"
         parser = PDFParser(filePath, self.nlp)
         extractedText = parser.extractText()
@@ -47,6 +53,9 @@ class TestParser(unittest.TestCase):
         self.assertEqual(extractedText, "This is a test pdf file.")
 
     def test_split(self):
+        """
+        Tests if the splitting method is working properly.
+        """
         filePaths = "tests/files/testFIle.pdf", "tests/files/ml_guide.pdf"
         for filePath in filePaths:
             parser = PDFParser(filePath, self.nlp)
@@ -57,6 +66,9 @@ class TestParser(unittest.TestCase):
                 self.assertLessEqual(len(text), 500)
 
     def test_vectorization(self):
+        """
+        Tests if the vectorization method is working properly.
+        """
         filePaths = "tests/files/testFIle.pdf", "tests/files/ml_guide.pdf"
         for filePath in filePaths:
             parser = PDFParser(filePath, self.nlp)
@@ -68,6 +80,9 @@ class TestParser(unittest.TestCase):
                 self.assertEqual(len(vectors), expecetdVectorShape)
 
     def test_document_vectorization(self):
+        """
+        Tests if the vectorization of a document is working properly.
+        """
         filePaths = "tests/files/testFIle.pdf", "tests/files/ml_guide.pdf"
         for filePath in filePaths:
             parser = PDFParser(filePath, self.nlp)

@@ -6,6 +6,15 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 class PDFParser:
     def __init__(self, file:str|BytesIO, nlp:Language, chunkSize:int=500, chunkOverlap = 100):
+        """
+        Initializes the PDFParser.
+
+        Parameters:
+        file (str|BytesIO): The file to be parsed.
+        nlp (Language): An instance of a Spacy language model.
+        chunkSize (int): The number of characters to include in each chunk.
+        chunkOverlap (int): The number of characters to overlap between chunks.
+        """
         if not isinstance(file, (str, BytesIO)):
             raise TypeError("File argument must be a bytes object or a string.")
         
@@ -33,7 +42,13 @@ class PDFParser:
             add_start_index = True
         )
 
-    def extractText(self):
+    def extractText(self) -> str:
+        """
+        Extracts the text from the PDF file and returns it as a single string.
+
+        Returns:
+        str: The extracted text from the PDF file.
+        """
         reader = PdfReader(self.file)
         text = ""
         
@@ -42,16 +57,40 @@ class PDFParser:
         
         return text.strip()
     
-    def splitExtractedText(self, text:str):
+    def splitExtractedText(self, text:str) -> list[str]:
+        """
+        Splits the extracted text to chunks.
+
+        Parameters:
+        text (str): The extracted text to be split.
+        
+        Returns:
+        list[str]: A list of chunks extracted from the input text.
+        """
         chunks = self.splitter.split_text(text)
         
         return chunks
     
     def vectorize(self, text:str):
+        """
+        Vectorizes the input text using the Spacy language model.
+        
+        Parameters:
+        text (str): The text to be vectorized.
+        
+        Returns:
+        spacy.Floats1d: The vectorized representation of the input text. 
+        """
         doc = self.nlp(text)
         return doc.vector
     
     def vectorizeDocument(self):
+        """
+        Vectorizes the entire document and returns a list of vectors.
+        
+        Returns:
+        List[spacy.Floats1d]: A list of vectorized representations of the document.
+        """
         text = self.extractText()
         chunks = self.splitExtractedText(text)
         vectors = [self.vectorize(chunk) for chunk in chunks]

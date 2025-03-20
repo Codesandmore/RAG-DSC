@@ -1,0 +1,125 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body Styling */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #121212;
+}
+
+/* Chat Container */
+.chat-container {
+    width: 400px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Chat Header */
+.chat-header {
+    background: #282828;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Chat Box */
+.chat-box {
+    height: 300px;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Messages */
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 80%;
+}
+
+.bot-message {
+    background: #333;
+    color: white;
+    align-self: flex-start;
+}
+
+.user-message {
+    background: #0078ff;
+    color: white;
+    align-self: flex-end;
+}
+
+/* Input Area */
+.input-area {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: #282828;
+    gap: 5px;
+}
+
+/* Hidden File Input */
+#file-upload {
+    display: none;
+}
+
+/* Attach (+) Button */
+.attach-btn {
+    width: 40px;
+    height: 40px;
+    background: #0078ff;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    user-select: none;
+}
+
+.attach-btn:hover {
+    background: #0056cc;
+}
+
+/* Text Input */
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    background: #333;
+    color: white;
+}
+
+/* Send Button */
+#send-btn {
+    background: #0078ff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#send-btn:hover {
+    background: #0056cc;
+}

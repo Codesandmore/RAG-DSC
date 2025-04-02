@@ -8,7 +8,7 @@ FIXES:-
 
 CHANGES:-
 
-1.changed llm from mistral to ollama3
+1.changed llm from mistral to llama3
 2.added a text file input
 3.added a basic personality
 

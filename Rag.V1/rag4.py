@@ -8,6 +8,9 @@ import torch
 import ollama
 from openai import OpenAI
 import argparse
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 PINK = '\033[95m'
 CYAN = '\033[96m'
@@ -164,9 +167,32 @@ def ollama_chat(user_input, system_message, vault_embeddings, vault_content, oll
     return response.choices[0].message.content
 
 
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.post("/chat")
+async def chat_endpoint(request: Request):
+    data = await request.json()
+    user_input = data.get("message", "")
+    # Use your existing RAG method:
+    response_text = ollama_chat(
+        user_input, 
+        system_message, 
+        vault_embeddings_tensor, 
+        vault_content, 
+        args.model, 
+        conversation_history
+    )
+    return {"response": response_text}
+
 if __name__ == "__main__":
-    launch_file_upload_gui()
-    
     print(NEON_GREEN + "Parsing command-line arguments..." + RESET_COLOR)
     parser = argparse.ArgumentParser(description="Ollama Chat")
     parser.add_argument("--model", default="llama3", help="Ollama model to use (default: llama3)")
@@ -199,9 +225,4 @@ if __name__ == "__main__":
     conversation_history = []
     system_message = "You are JON,a helpful assistant that is an expert at extracting the most useful information from a given text. Also bring in extra relevant infromation to the user query from outside the given context.Also start every response with a randon friendly chatter such as 'Hey,JON here' and other friendly chatter and based on the time also givr the appropriate greeting like good morning,good evening,good afternoon etc"
     
-    while True:
-        user_input = input(YELLOW + "Ask a query about your documents (or type 'quit' to exit): " + RESET_COLOR)
-        if user_input.lower() == 'quit':
-            break
-        response = ollama_chat(user_input, system_message, vault_embeddings_tensor, vault_content, args.model, conversation_history)
-        print(NEON_GREEN + "Response: \n\n" + response + RESET_COLOR)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
